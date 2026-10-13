@@ -7,15 +7,33 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>The Snake Game</h1>
-
-    <!-- Our Canvas -->
+    <!-- Our Canvas (left half of the screen, size is set in js/script.js) -->
      <canvas class="canvas" width="500" height="500"></canvas>
 
-     <div>
-        <h1>Developed By: Sadik J</h1>
-     </div>
+    <!-- Non functional screen (right half of the screen) -->
+    <div class="panel">
 
+        <h1>The Snake Game</h1>
+
+        <div class="middle">
+            <!-- Score box -->
+            <div class="score-box">
+                Score: <span id="score">0</span>
+            </div>
+
+            <!-- Speed buttons -->
+            <div class="speed-buttons">
+                <button id="mild" data-speed="160">Mild</button>
+                <button id="moderate" data-speed="100" class="active">Moderate</button>
+                <button id="fast" data-speed="50">Fast</button>
+            </div>
+        </div>
+
+        <div>
+            <h1>Developed By: Sadik J</h1>
+        </div>
+
+    </div>
 
      <script src="js/script.js"></script>
 </body>

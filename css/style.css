@@ -1,3 +1,90 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;           /* no scrollbars */
+    background-color: black;
+}
+
+body{
+    display: flex;              /* canvas on the left, panel on the right */
+    flex-direction: row;
+}
+
+/* functional screen: half of the screen */
 canvas{
     background-color: black;
+    display: block;
+    flex: none;
+}
+
+/* non functional screen: the other half, different color */
+.panel{
+    flex: 1;
+    height: 100%;
+    background-color: #1f3a5f;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 10px;
+    box-sizing: border-box;
+}
+
+.panel h1{
+    margin: 0;
+    text-align: center;
+}
+.panel > h1{                    /* "The Snake Game" - top */
+    font-size: 36px;
+}
+.panel > div:last-child h1{     /* "Developed By" - bottom */
+    font-size: 18px;
+    font-weight: normal;
+    opacity: 0.85;
+}
+
+.middle{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Score box */
+.score-box{
+    padding: 12px 30px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 2px solid #ff0;
+    border-radius: 6px;
+    color: #ff0;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+/* Speed buttons */
+.speed-buttons{
+    display: flex;
+    gap: 12px;
+}
+.speed-buttons button{
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #355d91;
+    border: 2px solid white;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.speed-buttons button:hover{
+    background-color: #4a78b3;
+}
+.speed-buttons button.active{   /* currently selected speed */
+    background-color: #ff0;
+    color: black;
+    border-color: #ff0;
 }

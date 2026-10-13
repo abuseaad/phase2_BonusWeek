@@ -3,8 +3,17 @@ const ctx = canvas.getContext("2d");
 // console.log(ctx);
 
 const scale = 20;
+
+// canvas takes half of the screen (rounded down to a multiple of scale)
+canvas.width = Math.floor((window.innerWidth / 2) / scale) * scale;
+canvas.height = Math.floor(window.innerHeight / scale) * scale;
+
 const rows = canvas.height/scale
 const columns = canvas.width/scale;
+
+// score: 1 point for every food the snake eats
+let score = 0;
+const scoreBox = document.getElementById("score");
 
 let snake = []; 
 snake[0] = {
@@ -42,8 +51,29 @@ function direction(event){
 // ctx.strokeRect(snake[0].x, snake[0].y, scale, scale)
 
 
-// call our draw function every 100 ms
-let playGame = setInterval(draw,100);
+// call our draw function every 100 ms (moderate speed is the default)
+let speed = 100;
+let gameOver = false;
+let playGame = setInterval(draw,speed);
+
+// speed buttons: mild = 160ms, moderate = 100ms, fast = 50ms
+const speedButtons = document.querySelectorAll(".speed-buttons button");
+speedButtons.forEach(function(button){
+    button.addEventListener("click", function(){
+        speed = Number(button.dataset.speed);
+
+        // highlight the selected button
+        speedButtons.forEach(function(b){ b.classList.remove("active"); });
+        button.classList.add("active");
+        button.blur();   // so the arrow keys keep controlling the snake
+
+        // restart the timer with the new speed (not after game over)
+        if(!gameOver){
+            clearInterval(playGame);
+            playGame = setInterval(draw,speed);
+        }
+    });
+});
 
 function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -75,23 +105,24 @@ function draw(){
     if(d == "right") snakeX +=scale;
     if(d == "down") snakeY +=scale;
 
-    if(snakeX > canvas.width){
+    if(snakeX >= canvas.width){
         snakeX = 0;
     }
-    if (snakeY > canvas.height){
+    if (snakeY >= canvas.height){
         snakeY = 0
     }
     if(snakeX < 0){
-        snakeX = canvas.width;
+        snakeX = canvas.width - scale;
     }
     if(snakeY < 0){
-        snakeY = canvas.height;
+        snakeY = canvas.height - scale;
     }
 
     // if the snake eats the food, it grows
 
     if(snakeX == food.x && snakeY == food.y){
-        // score++;
+        score++;
+        scoreBox.textContent = score;
         food = {
             x:(Math.floor(Math.random() * columns)) * scale,
             y: (Math.floor(Math.random() * rows) ) * scale
@@ -110,6 +141,7 @@ function draw(){
     } 
     if(eatSelf(newHead, snake)){
         clearInterval(playGame)
+        gameOver = true;
     }
 
     // snake.pop();
@@ -125,4 +157,3 @@ function eatSelf (head, array){
     }
     return false;
 }
-
